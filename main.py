@@ -4,23 +4,22 @@ import time
 import random
 
 SIZE = 30
-SIZE_IMAGE = 10
 
 
 class Apple:
     def __init__(self, surface):
         self.parent_screen = surface
         self.image = pygame.image.load("resources/apple-block.jpg").convert()
-        self.x = SIZE_IMAGE*3
-        self.y = SIZE_IMAGE*3
+        self.x = SIZE*3
+        self.y = SIZE*3
 
     def draw(self):
         self.parent_screen.blit(self.image, (self.x, self.y))
         pygame.display.flip()
 
     def move(self):
-        self.x = random.randint(0, 30)*SIZE
-        self.y = random.randint(0, 23)*SIZE
+        self.x = random.randint(0, 28)*SIZE
+        self.y = random.randint(0, 20)*SIZE
 
 
 class Snake:
@@ -120,6 +119,7 @@ class Game:
         score = font.render(
             f"Score: {self.snake.length}", True, (255, 255, 255))
         self.surface.blit(score, (700, 10))
+        pygame.display.flip()
 
     def show_game_over(self):
         self.surface.fill((31, 31, 31))
