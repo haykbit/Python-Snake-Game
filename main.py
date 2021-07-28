@@ -3,23 +3,25 @@ from pygame.locals import *
 import time
 import random
 
-SIZE = 30
+SIZE = 25
+
+pygame.display.set_caption('Snake Game')
 
 
 class Apple:
     def __init__(self, surface):
         self.parent_screen = surface
-        self.image = pygame.image.load("resources/apple-block.jpg").convert()
-        self.x = SIZE*3
-        self.y = SIZE*3
+        self.image = pygame.image.load("resources/watermelon.jpg").convert()
+        self.x = SIZE*6
+        self.y = SIZE*6
 
     def draw(self):
         self.parent_screen.blit(self.image, (self.x, self.y))
-        pygame.display.flip()
+        # pygame.display.flip()
 
     def move(self):
-        self.x = random.randint(0, 28)*SIZE
-        self.y = random.randint(0, 20)*SIZE
+        self.x = random.randint(0, 40)*SIZE
+        self.y = random.randint(0, 30)*SIZE
 
 
 class Snake:
@@ -29,7 +31,7 @@ class Snake:
         # Parent screen for acces surface
         self.parent_screen = surface
         # Load image
-        self.block = pygame.image.load("resources/snake-block.jpg").convert()
+        self.block = pygame.image.load("resources/snake-block.png").convert()
         # set multiple x and y cordinate
         self.x = [SIZE]*length
         self.y = [SIZE]*length
@@ -41,7 +43,8 @@ class Snake:
         self.parent_screen.fill((31, 31, 31))
         for i in range(self.length):
             self.parent_screen.blit(self.block, (self.x[i], self.y[i]))
-        pygame.display.flip()
+        time.sleep(.1)
+        # pygame.display.flip()
 
     def increase_length(self):
         self.length += 1
@@ -82,12 +85,12 @@ class Game:
     def __init__(self):
         pygame.init()
         # Create display 500px x 500px
-        self.surface = pygame.display.set_mode((900, 700))
+        self.surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         # Background Color
         self.surface.fill((31, 31, 31))
 
         # Draw Snake
-        self.snake = Snake(self.surface, 6)
+        self.snake = Snake(self.surface, 1)
         self.snake.draw()
 
         # Draw Apple
@@ -115,21 +118,22 @@ class Game:
                 raise "Game Over"
 
     def display_score(self):
-        font = pygame.font.SysFont('Montserrat', 30)
+        font = pygame.font.SysFont('arialblack', 30)
         score = font.render(
-            f"Score: {self.snake.length}", True, (255, 255, 255))
-        self.surface.blit(score, (700, 10))
-        pygame.display.flip()
+            f"SCORE {self.snake.length} ", True, (255, 255, 255))
+        self.surface.blit(score, (1150, 60))
+        # pygame.display.flip()
 
     def show_game_over(self):
         self.surface.fill((31, 31, 31))
-        font = pygame.font.SysFont('Montserrat', 30)
+        font = pygame.font.SysFont('arialblack', 40)
         line1 = font.render(
-            f"Game is over! Your score is: {self.snake.length}", True, (255, 255, 255))
-        self.surface.blit(line1, (300, 300))
+            f"Game over! Your score is {self.snake.length}", True, (255, 255, 255))
+        self.surface.blit(line1, (50, 280))
+        font = pygame.font.SysFont('Arial', 20)
         line2 = font.render(
             f"To play again press Enter", True, (255, 255, 255))
-        self.surface.blit(line2, (300, 350))
+        self.surface.blit(line2, (50, 340))
         pygame.display.flip()
 
     def reset(self):
@@ -171,8 +175,6 @@ class Game:
                 self.show_game_over()
                 pause = True
                 self.reset()
-
-            time.sleep(.3)
 
 
 if __name__ == "__main__":
